@@ -5,6 +5,7 @@ import { google } from "@ai-sdk/google";
 
 import { db } from "@/firebase/admin";
 import { feedbackSchema } from "@/constants";
+import { log } from "console";
 
 export async function createFeedback(params: CreateFeedbackParams) {
   const { interviewId, userId, transcript, feedbackId } = params;
@@ -61,7 +62,7 @@ export async function createFeedback(params: CreateFeedbackParams) {
 
     return { success: true, feedbackId: feedbackRef.id };
   } catch (error) {
-    return { success: false };
+    return { success: false, error: error };
   }
 }
 
