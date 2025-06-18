@@ -42,7 +42,7 @@ const InterviewDetails = async ({ params }: RouteParams) => {
             <h3 className="capitalize">{interview.role} Interview</h3>
           </div>
 
-          <DisplayTechIcons techStack={interview.techstack} />
+          <DisplayTechIcons skills={interview.skills} />
         </div>
 
         <p className="bg-dark-200 px-4 py-2 rounded-lg h-fit">
