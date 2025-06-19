@@ -62,6 +62,7 @@ async function Home() {
                 role={interview.role}
                 type={interview.type}
                 skills={interview.skills}
+                country={interview.country}
                 createdAt={interview.createdAt}
               />
             ))
@@ -84,6 +85,7 @@ async function Home() {
                 role={interview.role}
                 type={interview.type}
                 skills={interview.skills}
+                country={interview.country}
                 createdAt={interview.createdAt}
               />
             ))

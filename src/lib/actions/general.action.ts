@@ -30,13 +30,21 @@ export async function createFeedback(params: CreateFeedbackParams) {
 
         Please score the candidate from 0 to 100 in the following areas. Do not add categories other than the ones provided:
         - **Communication Skills**: Clarity, articulation, structured responses.
-        - **Technical Knowledge**: Understanding of key concepts for the role.
-        - **Problem-Solving**: Ability to analyze problems and propose solutions.
-        - **Cultural & Role Fit**: Alignment with company values and job role.
-        - **Confidence & Clarity**: Confidence in responses, engagement, and clarity.
+        - **Technical Knowledge**: Understanding of key concepts and tools relevant for the role.
+        - **Problem-Solving**: Ability to analyze problems, reason logically, and propose effective solutions.
+        - **Cultural & Role Fit**: Alignment with company values, team dynamics, and expectations of the role..
+        - **Confidence & Clarity**: Confidence in delivery, steady engagement, and clear explanations.
+        - **Pacing & Flow**: Smooth delivery without rushing or dragging; balanced timing in responses.
+        - **Expression Skills**: Use of appropriate tone, facial expressions, and body language to convey ideas effectively.
+        - **Motivation & Interest**: Genuine enthusiasm for the role, company, and industry.
+        - **Adaptability & Learning Agility**: Openness to feedback, willingness to learn, and ability to adjust to change.
+        - **Professionalism**: Punctuality, preparedness, respectfulness, and polished conduct.
+        - **Track Record & Achievements**: Concrete accomplishments that show impact and capability.
+        - **Growth Potential**: Signs of leadership ability, curiosity, and long-term value to the company.
         `,
+
       system:
-        "You are a professional interviewer analyzing a mock interview. Your task is to evaluate the candidate based on structured categories",
+        "You are an experienced recruiter analyzing a real-time interview. Your task is to evaluate the candidate based on structured categories",
     });
 
     const feedback = {

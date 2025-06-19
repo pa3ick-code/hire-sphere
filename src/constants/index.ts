@@ -121,13 +121,14 @@ export const interviewer: CreateAssistantDTO = {
     messages: [
       {
         role: "system",
-        content: `You are a professional job interviewer conducting a real-time voice interview with a candidate. Your goal is to assess their qualifications, motivation, and fit for the role.
+        content: `You are an experienced recruiter conducting a real-time voice interview with a candidate. Your goal is to assess their qualifications, motivation, professionalism, career progression, soft skills and fit for the role.
 
 Interview Guidelines:
 Follow the structured question flow:
 {{questions}}
 
 Engage naturally & react appropriately:
+Try to know the candidate.
 Listen actively to responses and acknowledge them before moving forward.
 Ask brief follow-up questions if a response is vague or requires more detail.
 Keep the conversation flowing smoothly while maintaining control.
@@ -162,6 +163,10 @@ export const feedbackSchema = z.object({
       name: z.literal("Communication Skills"),
       score: z.number(),
       comment: z.string(),
+    }),z.object({
+      name: z.literal("Expression Skills"),
+      score: z.number(),
+      comment: z.string(),
     }),
     z.object({
       name: z.literal("Technical Knowledge"),
@@ -180,6 +185,41 @@ export const feedbackSchema = z.object({
     }),
     z.object({
       name: z.literal("Confidence and Clarity"),
+      score: z.number(),
+      comment: z.string(),
+    }),
+    z.object({
+      name: z.literal("Engagement Level"),
+      score: z.number(),
+      comment: z.string(),
+    }),
+    z.object({
+      name: z.literal("Pacing and Flow"),
+      score: z.number(),
+      comment: z.string(),
+    }),
+    z.object({
+      name: z.literal("Motivation and Interest"),
+      score: z.number(),
+      comment: z.string(),
+    }),
+    z.object({
+      name: z.literal("Adaptability and Learning Agility"),
+      score: z.number(),
+      comment: z.string(),
+    }),
+    z.object({
+      name: z.literal("Professionalism"),
+      score: z.number(),
+      comment: z.string(),
+    }),
+    z.object({
+      name: z.literal("Track Record and Achievements"),
+      score: z.number(),
+      comment: z.string(),
+    }),
+    z.object({
+      name: z.literal("Growth Potential"),
       score: z.number(),
       comment: z.string(),
     }),

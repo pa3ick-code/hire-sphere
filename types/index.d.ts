@@ -19,6 +19,7 @@ interface Interview {
   level: string;
   questions: string[];
   skills: string[];
+  country: string;
   createdAt: string;
   userId: string;
   type: string;
@@ -44,6 +45,7 @@ interface InterviewCardProps {
   role: string;
   type: string;
   skills: string[];
+  country: string;
   createdAt?: string;
 }
 
@@ -91,6 +93,7 @@ interface InterviewFormProps {
   level: string;
   type: string;
   skills: string[];
+  country: string;
   amount: number;
 }
 

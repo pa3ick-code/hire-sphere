@@ -5,13 +5,16 @@ import { db } from "@/firebase/admin";
 import { getRandomInterviewCover } from "@/lib/utils";
 
 export async function POST(request: Request) {
-  const { type, role, level, skills, amount, userid } = await request.json();
+  const { type, role, level, skills, amount, userid, country } = await request.json();
 
   try {
     const { text: questions } = await generateText({
       model: google("gemini-2.0-flash-001"),
       prompt: `
-       Prepare questions for a job interview.
+        You are an experience recruiter, 
+        preparing candidates for interview in ${country},
+        Prepare real life questions for a job interview in ${country}.
+        Make it sound so real.
         The job role is ${role}.
         The job experience level is ${level}.
         The skills required in the job is: ${skills}.
@@ -30,6 +33,7 @@ export async function POST(request: Request) {
       role: role,
       type: type,
       level: level,
+      country: country,
       skills: skills.split(","),
       questions: JSON.parse(questions),
       userId: userid,
