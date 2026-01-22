@@ -5,8 +5,8 @@ import { redirect } from "next/navigation";
 const Page = async () => {
   const user = await getCurrentUser();
   if (!user || !user.id) {
-  redirect("/"); // Redirect or handle missing user
-}
+    redirect("/sign-in"); // Redirect or handle missing user
+  }
 
   return (
     <>
