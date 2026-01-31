@@ -1,11 +1,12 @@
 import { generateText } from "ai";
 import { google } from "@ai-sdk/google";
 
-import { db } from "@/firebase/admin";
+import { createClient } from "@/lib/supabase/server";
 import { getRandomInterviewCover } from "@/lib/utils";
 
 export async function POST(request: Request) {
   const { type, role, level, skills, amount, userid, country } = await request.json();
+  const supabase = await createClient();
 
   try {
     const { text: questions } = await generateText({
@@ -36,17 +37,18 @@ export async function POST(request: Request) {
       country: country,
       skills: skills.split(","),
       questions: JSON.parse(questions),
-      userId: userid,
+      user_id: userid,
       finalized: true,
-      coverImage: getRandomInterviewCover(),
-      createdAt: new Date().toISOString(),
+      cover_image: getRandomInterviewCover(),
+      created_at: new Date().toISOString(),
     };
 
-    await db.collection("interviews").add(interview);
+    const { error } = await supabase.from('interviews').insert(interview);
+    if (error) throw error;
 
     return Response.json({ success: true }, { status: 200 });
-  } catch (error) {
-    return Response.json({ success: false, error: error }, { status: 500 });
+  } catch (error: any) {
+    return Response.json({ success: false, error: error.message || error }, { status: 500 });
   }
 }
 

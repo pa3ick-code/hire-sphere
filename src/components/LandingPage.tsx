@@ -1,10 +1,15 @@
 "use client";
 
+import Image from 'next/image';
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Check, ArrowRight, Zap, Target, BarChart, Mic, Play, X, Star, Briefcase, Building2 } from 'lucide-react';
 import { motion, useScroll, useTransform, Variants } from 'framer-motion';
+import { Check, ArrowRight, Zap, Target, BarChart, Mic, Play, X, Star, Briefcase, Building2 } from 'lucide-react';
+import { Navbar } from './Navbar';
+import { Footer } from './Footer';
+import { ModeToggle } from './ModeToggle';
 
 const fadeInUp: Variants = {
     hidden: { opacity: 0, y: 40 },
@@ -23,40 +28,15 @@ const staggerContainer: Variants = {
 
 export default function LandingPage() {
     return (
-        <div className="h-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth bg-white text-slate-900 font-sans selection:bg-blue-100 dark:bg-slate-950 dark:text-slate-100">
+        <div className="h-screen overflow-y-scroll md:snap-y md:snap-mandatory scroll-smooth bg-white text-slate-900 font-sans selection:bg-blue-100 dark:bg-slate-950 dark:text-slate-100">
 
-            {/* Navigation */}
-            <motion.nav
-                initial={{ y: -100 }}
-                animate={{ y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="fixed top-0 left-0 right-0 z-50 w-full border-b border-slate-200 bg-white/80 backdrop-blur-md dark:border-slate-800 dark:bg-slate-950/80"
-            >
-                <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
-                    <div className="flex items-center gap-2">
-                        <div className="flex size-8 items-center justify-center rounded-lg bg-blue-600 font-bold text-white">P</div>
-                        <span className="text-xl font-bold tracking-tight">Prepfluss</span>
-                    </div>
-
-                    <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600 dark:text-slate-400">
-                        <Link href="#how-it-works" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">How it Works</Link>
-                        <Link href="#job-seekers" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Job Seekers</Link>
-                        <Link href="#pricing" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Pricing</Link>
-                    </div>
-
-                    <div className="flex items-center gap-4">
-                        <Link href="/sign-in" className="text-sm font-medium text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white">
-                            Log in
-                        </Link>
-                        <Button asChild size="sm" className="bg-blue-600 text-white hover:bg-blue-700 rounded-full px-6">
-                            <Link href="/sign-up">Get Started</Link>
-                        </Button>
-                    </div>
-                </div>
-            </motion.nav>
+            {/* Header/Navigation */}
+            <Navbar />
 
             {/* Hero Section */}
-            <section className="snap-start h-screen min-h-[800px] flex items-center justify-center relative overflow-hidden pt-16">
+
+            {/* Hero Section */}
+            <section className="snap-start min-h-screen md:h-screen md:min-h-[800px] flex items-center justify-center relative overflow-hidden pt-10 mb-10 md:mb-0">
                 <motion.div
                     initial="hidden"
                     whileInView="visible"
@@ -64,8 +44,8 @@ export default function LandingPage() {
                     variants={staggerContainer}
                     className="container mx-auto px-4 md:px-6 z-10"
                 >
-                    <div className="grid gap-12 lg:grid-cols-2 lg:gap-8 items-center">
-                        <motion.div variants={fadeInUp} className="flex flex-col gap-6 lg:items-start text-center lg:text-left">
+                    <div className="grid gap-12 lg:grid-cols-2 lg:gap-8 items-center mt-20 md:mt-0">
+                        <motion.div variants={fadeInUp} className="flex flex-col gap-3 sm:gap-6 lg:items-start text-center lg:text-left">
                             <Badge variant="outline" className="w-fit mx-auto lg:mx-0 border-blue-200 bg-blue-50 text-blue-700 hover:bg-blue-50 dark:border-blue-900 dark:bg-blue-950 dark:text-blue-300">
                                 <Zap className="mr-1 size-3 fill-blue-700" /> AI-Powered Interview Coach
                             </Badge>
@@ -77,42 +57,43 @@ export default function LandingPage() {
                                 Practice real interviews with AI. Get instant feedback on your tone, clarity, and answers. Walk in calm, clear, and confident.
                             </p>
                             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                                <Button size="lg" className="rounded-full bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 h-12 text-base">
-                                    <Link href="/interview">Try a Free Mock Interview</Link>
+                                <Button size="lg" className="rounded-full bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 h-12 text-base" asChild>
+                                    <Link href="/interview/cv">Try a Free Mock Interview</Link>
                                 </Button>
-                                <Button size="lg" variant="outline" className="rounded-full border-slate-200 hover:bg-slate-100 hover:text-slate-900 dark:border-slate-800 dark:text-slate-300 px-8 h-12 text-base">
-                                    <Play className="mr-2 size-4" /> Explore Demo
+                                <Button size="lg" variant="outline" className="rounded-full border-slate-200 hover:bg-slate-100 hover:text-slate-900 dark:border-slate-800 dark:text-slate-300 px-8 h-12 text-base" asChild>
+                                    <Link href="/interview/cv">
+                                        <Play className="mr-2 size-4" /> Explore Demo
+                                    </Link>
                                 </Button>
                             </div>
                             <div className="flex items-center justify-center lg:justify-start gap-4 text-sm text-slate-500">
-                                <div className="flex -space-x-2">
+                                <div className="flex -space-x-3">
                                     {[1, 2, 3, 4].map((i) => (
-                                        <div key={i} className="size-8 rounded-full border-2 border-white bg-slate-200 dark:border-slate-950" />
+                                        <div key={i} className="size-10 rounded-full border-2 border-white dark:border-slate-950 relative overflow-hidden">
+                                            <Image
+                                                src={`/avatar-${i}.png`}
+                                                alt={`User ${i}`}
+                                                fill
+                                                className="object-cover"
+                                            />
+                                        </div>
                                     ))}
                                 </div>
-                                <span>Trusted by 10,000+ candidates</span>
+                                <span className="font-medium">Trusted by 10,000+ candidates</span>
                             </div>
                         </motion.div>
 
                         {/* Hero Visual */}
                         <motion.div variants={fadeInUp} className="relative mx-auto lg:ml-auto w-full max-w-[500px] lg:max-w-none">
                             <div className="relative rounded-2xl border border-slate-200 bg-slate-50/50 p-2 shadow-2xl dark:border-slate-800 dark:bg-slate-900/50">
-                                <div className="rounded-xl bg-white overflow-hidden dark:bg-slate-950 grid grid-cols-2 gap-px border border-slate-100 dark:border-slate-800 h-[300px] md:h-[400px]">
-                                    <div className="bg-slate-100 dark:bg-slate-900 flex items-center justify-center relative">
-                                        <span className="text-slate-400 font-medium">You</span>
-                                        <div className="absolute bottom-4 left-4 bg-black/50 backdrop-blur px-2 py-1 rounded text-xs text-white">Candidate</div>
-                                    </div>
-                                    <div className="bg-blue-50/30 dark:bg-blue-950/20 flex flex-col items-center justify-center relative p-6">
-                                        <div className="size-16 rounded-full bg-blue-100 flex items-center justify-center mb-4 text-blue-600">
-                                            <Mic className="size-8" />
-                                        </div>
-                                        <div className="w-full space-y-2">
-                                            <div className="h-2 w-3/4 bg-slate-200 rounded-full mx-auto animate-pulse" />
-                                            <div className="h-2 w-1/2 bg-slate-200 rounded-full mx-auto animate-pulse" />
-                                        </div>
-                                        <div className="absolute bottom-4 right-4 bg-blue-600 px-2 py-1 rounded text-xs text-white">AI Interviewer</div>
-                                    </div>
-                                </div>
+                                <Image
+                                    src="/hero-visual.png"
+                                    alt="Prepfluss Interview Interface"
+                                    width={800}
+                                    height={600}
+                                    className="rounded-xl w-full h-auto"
+                                    priority
+                                />
                                 {/* Floating UI Elements */}
                                 <motion.div
                                     animate={{ y: [0, -10, 0] }}
@@ -134,8 +115,8 @@ export default function LandingPage() {
             </section>
 
             {/* Problem Section */}
-            <section className="snap-start h-screen min-h-[800px] flex items-center justify-center bg-slate-50 dark:bg-slate-900">
-                <div className="container mx-auto px-4 md:px-6">
+            <section className="snap-start min-h-screen md:h-screen md:min-h-[800px] flex items-center justify-center bg-slate-50 dark:bg-slate-900">
+                <div className="container mx-auto px-4 md:px-6 pt-14 md:pt-0 mb-14 md:mb-0">
                     <motion.div
                         initial="hidden"
                         whileInView="visible"
@@ -155,7 +136,7 @@ export default function LandingPage() {
                         className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12"
                     >
                         {[
-                            { icon: Mic, title: "No Oral Practice", desc: "You’ve never practiced answering questions out loud." },
+                            { icon: Mic, title: "No Oral Practice", desc: "You've never practiced answering questions out loud." },
                             { icon: BarChart, title: "Mind Blanks", desc: "Your mind blanks on simple questions under pressure." },
                             { icon: X, title: "Zero Feedback", desc: "Rejections come with generic emails and zero useful feedback." },
                             { icon: Target, title: "Anxiety Sabotage", desc: "Anxiety sabotages answers you actually know perfectly." }
@@ -177,14 +158,14 @@ export default function LandingPage() {
                         className="text-center border-t border-slate-200 dark:border-slate-800 pt-12"
                     >
                         <p className="text-xl font-medium text-slate-700 dark:text-slate-300">
-                            You’re not underqualified. <span className="text-blue-600 font-bold">You’re under-prepared.</span> We fix that.
+                            You&apos;re not underqualified. <span className="text-blue-600 font-bold">You&apos;re under-prepared.</span> We fix that.
                         </p>
                     </motion.div>
                 </div>
             </section>
 
             {/* How It Works Section */}
-            <section id="how-it-works" className="snap-start h-screen min-h-[800px] flex items-center justify-center">
+            <section id="how-it-works" className="snap-start min-h-screen md:h-screen md:min-h-[800px] flex items-center justify-center pt-14 md:pt-0 mb-14 md:mb-0">
                 <div className="container mx-auto px-4 md:px-6">
                     <motion.div
                         initial="hidden"
@@ -248,7 +229,7 @@ export default function LandingPage() {
             </section>
 
             {/* Job Seekers Section */}
-            <section id="job-seekers" className="snap-start h-screen min-h-[800px] flex items-center justify-center bg-slate-50 dark:bg-slate-900">
+            <section id="job-seekers" className="snap-start min-h-screen md:h-screen md:min-h-[800px] flex items-center justify-center bg-slate-50 dark:bg-slate-900 pt-14 md:pt-0 mb-14 md:mb-0">
                 <motion.div
                     initial="hidden"
                     whileInView="visible"
@@ -259,34 +240,15 @@ export default function LandingPage() {
                     <div className="grid lg:grid-cols-2 gap-16 items-center">
                         <motion.div variants={fadeInUp} className="order-2 lg:order-1 relative">
                             {/* Visual Placeholder */}
-                            <div className="aspect-square rounded-2xl bg-blue-100 dark:bg-blue-900/20 relative overflow-hidden">
-                                <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/20 to-transparent" />
-                                <motion.div
-                                    initial={{ y: 50, opacity: 0 }}
-                                    whileInView={{ y: 0, opacity: 1 }}
-                                    transition={{ delay: 0.3, duration: 0.5 }}
-                                    className="absolute top-1/4 left-1/4 right-8 bottom-8 bg-white dark:bg-slate-950 rounded-tl-2xl shadow-2xl border border-slate-200 dark:border-slate-800 p-6"
-                                >
-                                    <div className="flex items-center gap-4 mb-6">
-                                        <div className="size-12 rounded-full bg-slate-200 dark:bg-slate-800" />
-                                        <div className="space-y-2 flex-1">
-                                            <div className="h-2 w-1/3 bg-slate-200 dark:bg-slate-800 rounded-full" />
-                                            <div className="h-2 w-1/2 bg-slate-100 dark:bg-slate-900 rounded-full" />
-                                        </div>
-                                    </div>
-                                    <div className="space-y-3">
-                                        <div className="h-2 w-full bg-slate-100 dark:bg-slate-900 rounded-full" />
-                                        <div className="h-2 w-full bg-slate-100 dark:bg-slate-900 rounded-full" />
-                                        <div className="h-2 w-3/4 bg-slate-100 dark:bg-slate-900 rounded-full" />
-                                    </div>
-
-                                    <div className="mt-8 p-4 bg-green-50 dark:bg-green-900/20 rounded-xl border border-green-100 dark:border-green-900/50">
-                                        <div className="flex items-center gap-2 text-green-700 dark:text-green-400 font-bold mb-1">
-                                            <Star className="size-4 fill-green-700" /> Strong Communication
-                                        </div>
-                                        <p className="text-xs text-green-800 dark:text-green-300">You avoided filler words and spoke with confidence.</p>
-                                    </div>
-                                </motion.div>
+                            {/* Visual Placeholder */}
+                            <div className="aspect-square rounded-2xl bg-blue-100 dark:bg-blue-900/20 relative overflow-hidden shadow-2xl">
+                                <Image
+                                    src="/job-seeker-visual.png"
+                                    alt="Job Seeker Progress Dashboard"
+                                    width={600}
+                                    height={600}
+                                    className="w-full h-full object-cover"
+                                />
                             </div>
                         </motion.div>
                         <div className="order-1 lg:order-2">
@@ -323,7 +285,7 @@ export default function LandingPage() {
             </section>
 
             {/* For Companies Section */}
-            <section className="snap-start h-screen min-h-[800px] flex items-center justify-center">
+            <section className="snap-start min-h-screen md:h-screen md:min-h-[800px] flex items-center justify-center pt-14 md:pt-0 mb-14 md:mb-0">
                 <motion.div
                     initial="hidden"
                     whileInView="visible"
@@ -362,38 +324,15 @@ export default function LandingPage() {
                         </div>
                         <motion.div variants={fadeInUp} className="relative">
                             {/* Company Visual Placeholder */}
-                            <div className="aspect-[4/3] rounded-2xl bg-slate-900 text-white p-8 relative overflow-hidden shadow-2xl">
-                                <div className="absolute top-0 right-0 p-4 opacity-20"><Building2 className="size-32" /></div>
-                                <div className="relative z-10">
-                                    <div className="text-sm text-slate-400 mb-2 uppercase tracking-wide">Candidate Pipeline</div>
-                                    <div className="space-y-4">
-                                        {[
-                                            { name: "Sarah J.", score: 98, status: "Recommended" },
-                                            { name: "Michael T.", score: 92, status: "Recommended" },
-                                            { name: "David L.", score: 85, status: "Review" },
-                                            { name: "Jessica M.", score: 74, status: "Rejected" },
-                                        ].map((c, i) => (
-                                            <motion.div
-                                                key={i}
-                                                initial={{ x: 20, opacity: 0 }}
-                                                whileInView={{ x: 0, opacity: 1 }}
-                                                transition={{ delay: 0.2 + (i * 0.1) }}
-                                                className="flex items-center justify-between p-3 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition-colors"
-                                            >
-                                                <div className="flex items-center gap-3">
-                                                    <div className="size-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-xs font-bold">{c.name.charAt(0)}</div>
-                                                    <span className="font-medium">{c.name}</span>
-                                                </div>
-                                                <div className="flex items-center gap-4">
-                                                    <span className="font-mono text-sm">{c.score}%</span>
-                                                    <span className={`text-xs px-2 py-1 rounded-full ${c.status === 'Recommended' ? 'bg-green-500/20 text-green-300' : c.status === 'Review' ? 'bg-yellow-500/20 text-yellow-300' : 'bg-red-500/20 text-red-300'}`}>
-                                                        {c.status}
-                                                    </span>
-                                                </div>
-                                            </motion.div>
-                                        ))}
-                                    </div>
-                                </div>
+                            {/* Company Visual Placeholder */}
+                            <div className="aspect-[4/3] rounded-2xl bg-slate-900 text-white relative overflow-hidden shadow-2xl border border-slate-800">
+                                <Image
+                                    src="/company-visual.png"
+                                    alt="Recruiter Dashboard Pipeline"
+                                    width={800}
+                                    height={600}
+                                    className="w-full h-full object-cover"
+                                />
                             </div>
                         </motion.div>
                     </div>
@@ -401,7 +340,7 @@ export default function LandingPage() {
             </section>
 
             {/* Social Proof Section */}
-            <section className="snap-start h-screen min-h-[800px] flex items-center justify-center bg-slate-50 dark:bg-slate-900">
+            <section className="snap-start min-h-screen md:h-screen md:min-h-[800px] flex items-center justify-center bg-slate-50 dark:bg-slate-900 pt-14 md:pt-0 mb-14 md:mb-0">
                 <motion.div
                     initial="hidden"
                     whileInView="visible"
@@ -433,7 +372,7 @@ export default function LandingPage() {
             </section>
 
             {/* Pricing Section */}
-            <section id="pricing" className="snap-start h-screen min-h-[800px] flex items-center justify-center">
+            <section id="pricing" className="snap-start min-h-screen md:h-screen md:min-h-[800px] flex items-center justify-center pt-14 md:pt-0 mb-14 md:mb-0">
                 <motion.div
                     initial="hidden"
                     whileInView="visible"
@@ -493,7 +432,7 @@ export default function LandingPage() {
             </section>
 
             {/* Final CTA */}
-            <section className="snap-start h-screen min-h-[600px] flex items-center justify-center bg-slate-900 text-white relative overflow-hidden">
+            <section className="snap-start min-h-screen md:h-screen md:min-h-[600px] flex items-center justify-center bg-slate-900 text-white relative overflow-hidden">
                 <div className="absolute inset-0 bg-[url('/pattern.png')] opacity-10" />
                 <motion.div
                     initial="hidden"
@@ -510,59 +449,14 @@ export default function LandingPage() {
                 </motion.div>
             </section>
 
-            {/* Footer */}
-            <section className="snap-start py-12 bg-slate-50 border-t border-slate-200 dark:bg-slate-950 dark:border-slate-800 text-sm">
-                <div className="container mx-auto px-4 md:px-6 h-full flex flex-col justify-center">
-                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 mb-12">
-                        <div className="col-span-2 lg:col-span-2">
-                            <div className="flex items-center gap-2 mb-4">
-                                <div className="flex size-6 items-center justify-center rounded bg-blue-600 font-bold text-white text-xs">P</div>
-                                <span className="font-bold text-lg">Prepfluss</span>
-                            </div>
-                            <p className="text-slate-500 max-w-xs mb-6">
-                                AI-powered mock interviews that provide real-time feedback and track progress to increase user confidence.
-                            </p>
-                            <div className="flex gap-4">
-                                {/* Social Icons Placeholder */}
-                                <div className="size-8 bg-slate-200 rounded-full" />
-                                <div className="size-8 bg-slate-200 rounded-full" />
-                                <div className="size-8 bg-slate-200 rounded-full" />
-                            </div>
-                        </div>
-                        <div>
-                            <h3 className="font-semibold mb-4">Product</h3>
-                            <ul className="space-y-2 text-slate-500">
-                                <li><Link href="#">Features</Link></li>
-                                <li><Link href="#">Pricing</Link></li>
-                                <li><Link href="#">Demo</Link></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h3 className="font-semibold mb-4">Company</h3>
-                            <ul className="space-y-2 text-slate-500">
-                                <li><Link href="#">About</Link></li>
-                                <li><Link href="#">Blog</Link></li>
-                                <li><Link href="#">Careers</Link></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h3 className="font-semibold mb-4">Support</h3>
-                            <ul className="space-y-2 text-slate-500">
-                                <li><Link href="#">Contact</Link></li>
-                                <li><Link href="#">Privacy</Link></li>
-                                <li><Link href="#">Terms</Link></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div className="pt-8 border-t border-slate-200 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-slate-400">
-                        <p>&copy; {new Date().getFullYear()} Prepfluss. All rights reserved.</p>
-                        <div className="flex gap-6">
-                            <Link href="#">Privacy Policy</Link>
-                            <Link href="#">Terms of Service</Link>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <motion.div 
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ duration: 0.8 }}
+                className="snap-start"
+            >
+                <Footer />
+            </motion.div>
         </div>
     );
 }

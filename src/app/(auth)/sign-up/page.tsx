@@ -1,7 +1,7 @@
-import  AuthForm  from "@/components/AuthForm"
+import { redirect } from 'next/navigation'
 
 const Page = () => {
-  return <AuthForm type="sign-up"/>
+    redirect('/interview/cv')
 }
 
 export default Page

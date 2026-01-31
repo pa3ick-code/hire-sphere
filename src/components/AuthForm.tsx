@@ -2,18 +2,14 @@
 
 import { z } from "zod";
 import Link from "next/link";
+import Image from "next/image";
 import { toast } from "sonner";
-import { auth } from "@/firebase/client";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
-import { ArrowRight, Check, Mic, Star } from "lucide-react";
-
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
+import { ArrowRight, Check, Mic, Star, Loader2 } from "lucide-react";
+import { useState } from "react";
 
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
@@ -32,6 +28,7 @@ const authFormSchema = (type: FormType) => {
 
 const AuthForm = ({ type }: { type: FormType }) => {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   const formSchema = authFormSchema(type);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -44,19 +41,29 @@ const AuthForm = ({ type }: { type: FormType }) => {
   });
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    setIsLoading(true);
     try {
       if (type === "sign-up") {
         const { name, email, password } = data;
 
-        const userCredential = await createUserWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
-
         const result = await signUp({
-          uid: userCredential.user.uid,
           name: name!,
+          email,
+          password,
+          uid: "", // uid is handled by supabase
+        });
+
+        if (!result.success) {
+          toast.error(result.message);
+          return;
+        }
+
+        toast.success(result.message);
+        router.push("/sign-in");
+      } else {
+        const { email, password } = data;
+
+        const result = await signIn({
           email,
           password,
         });
@@ -66,40 +73,20 @@ const AuthForm = ({ type }: { type: FormType }) => {
           return;
         }
 
-        toast.success("Account created successfully. Please sign in.");
-        router.push("/sign-in");
-      } else {
-        const { email, password } = data;
-
-        const userCredential = await signInWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
-
-        const idToken = await userCredential.user.getIdToken();
-        if (!idToken) {
-          toast.error("Sign in Failed. Please try again.");
-          return;
-        }
-
-        await signIn({
-          email,
-          idToken,
-        });
-
         toast.success("Signed in successfully.");
         router.push("/");
       }
     } catch (error) {
       toast.error(`There was an error: ${error}`);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const isSignIn = type === "sign-in";
 
   return (
-    <div className="flex min-h-screen w-full">
+    <div className="flex h-screen md:min-h-screen w-full">
       {/* Left Side: Form */}
       <motion.div
         initial={{ opacity: 0, x: -20 }}
@@ -109,7 +96,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
       >
         <div className="flex flex-col gap-8 max-w-md mx-auto w-full">
           <Link href="/" className="flex items-center gap-2 w-fit">
-            <div className="flex size-8 items-center justify-center rounded-lg bg-blue-600 font-bold text-white">P</div>
+            <Image src="/logo.png" alt="Prepfluss Logo" width={32} height={32} className="rounded-lg" />
             <span className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Prepfluss</span>
           </Link>
 
@@ -131,6 +118,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
                   label="Full Name"
                   placeholder="e.g. Tunde Johnson"
                   type="text"
+                  disabled={isLoading}
                 />
               )}
 
@@ -140,20 +128,47 @@ const AuthForm = ({ type }: { type: FormType }) => {
                 label="Email"
                 placeholder="name@example.com"
                 type="email"
+                disabled={isLoading}
               />
 
-              <FormField
-                control={form.control}
-                name="password"
-                label="Password"
-                placeholder="Enter your password"
-                type="password"
-              />
+              <div>
+                <FormField
+                  control={form.control}
+                  name="password"
+                  label="Password"
+                  placeholder="Enter your password"
+                  type="password"
+                  disabled={isLoading}
+                />
+                {isSignIn && (
+                  <div className="mt-2 text-right">
+                    <Link
+                      href="/forgot-password"
+                      className="text-sm text-blue-600 hover:underline font-medium"
+                    >
+                      Forgot Password?
+                    </Link>
+                  </div>
+                )}
+              </div>
 
               <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                <Button className="w-full rounded-full bg-blue-600 hover:bg-blue-700 h-12 text-base font-semibold" type="submit">
-                  {isSignIn ? "Sign In" : "Create Account"}
-                  <ArrowRight className="ml-2 size-4" />
+                <Button
+                  className="w-full rounded-full bg-blue-600 hover:bg-blue-700 h-12 text-base font-semibold"
+                  type="submit"
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="mr-2 size-4 animate-spin" />
+                      {isSignIn ? "Signing In..." : "Creating Account..."}
+                    </>
+                  ) : (
+                    <>
+                      {isSignIn ? "Sign In" : "Create Account"}
+                      <ArrowRight className="ml-2 size-4" />
+                    </>
+                  )}
                 </Button>
               </motion.div>
             </form>

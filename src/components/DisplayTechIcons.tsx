@@ -11,7 +11,7 @@ const DisplayTechIcons = async ({ skills }: TechIconProps) => {
         <div
           key={tech}
           className={cn(
-            "relative group bg-dark-300 rounded-full p-2 flex flex-center",
+            "relative group bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full p-2 flex flex-center",
             index >= 1 && "-ml-3"
           )}
         >
